@@ -3,8 +3,6 @@ package com.learning.weatherApp.view.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.navigation.Navigation
-import androidx.navigation.fragment.FragmentNavigator
-import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.recyclerview.widget.RecyclerView
 import com.learning.weatherApp.databinding.WeatherListItemBinding
 import com.learning.weatherApp.repository.vo.WeatherInfo

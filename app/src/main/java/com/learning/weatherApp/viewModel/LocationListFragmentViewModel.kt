@@ -2,8 +2,6 @@ package com.learning.weatherApp.viewModel
 
 import android.location.Location
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MediatorLiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.learning.weatherApp.repository.WeatherAppRepository
 import com.learning.weatherApp.repository.network.api.NetworkState
@@ -22,7 +20,11 @@ class LocationListFragmentViewModel : ViewModel() {
         weatherAppRepository.fetchWeatherDetailsNetworkState()
     }
 
-    val weatherInfoList : LiveData<List<WeatherInfo>> by lazy {
+    val isLoading: LiveData<Boolean> by lazy {
+        weatherAppRepository.isLoading()
+    }
+
+    val weatherInfoList : LiveData<ArrayList<WeatherInfo>> by lazy {
         weatherAppRepository.fetchWeatherInfoList()
     }
 

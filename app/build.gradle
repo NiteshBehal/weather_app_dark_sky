@@ -80,4 +80,6 @@ dependencies {
 
     //Data binding
     kapt 'com.android.databinding:compiler:3.1.4'
+
+    testImplementation 'org.mockito:mockito-core:3.3.1'
 }

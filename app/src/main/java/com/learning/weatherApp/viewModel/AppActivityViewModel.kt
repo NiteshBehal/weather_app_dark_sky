@@ -3,11 +3,10 @@ package com.learning.weatherApp.viewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.learning.weatherApp.repository.network.api.NetworkState
 
 class AppActivityViewModel  : ViewModel() {
 
-    val updateListData  = MutableLiveData<Boolean>()
+    val updateListData  = MutableLiveData<Boolean>(false)
 
     fun getUpdateFlag(): LiveData<Boolean>{
         return updateListData

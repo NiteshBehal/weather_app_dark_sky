@@ -19,13 +19,18 @@ class WeatherApiDatasource(
     val networkState: LiveData<NetworkState>
         get() = _networkState
 
-    private val _weatherInfoListResponse = MutableLiveData<List<WeatherInfo>>()
-    val weatherInfoListResponse: LiveData<List<WeatherInfo>>
+    private val _isLoading = MutableLiveData<Boolean>(false)
+    val isLoading: LiveData<Boolean>
+        get() = _isLoading
+
+    private val _weatherInfoListResponse = MutableLiveData<ArrayList<WeatherInfo>>()
+    val weatherInfoListResponse: LiveData<ArrayList<WeatherInfo>>
         get() = _weatherInfoListResponse
 
     fun fetchWeatherInfo(location: List<Location>) {
-        _weatherInfoListResponse.value = listOf()
+        _weatherInfoListResponse.postValue(ArrayList())
         _networkState.postValue(NetworkState.LOADING)
+        _isLoading.postValue(true)
         try {
             var singleList = mutableListOf<Single<WeatherInfo>>()
             location.forEach {
@@ -34,21 +39,27 @@ class WeatherApiDatasource(
                         .subscribeOn(Schedulers.io())
                 )
             }
-
-            compositeDisposable.add(Single.zip(singleList) { args -> args }
-                .subscribe({
-                    Log.e("MovieDetailsDataSource", it.asList().toString() ?: "")
-                    _weatherInfoListResponse.postValue((it.asList() as List<WeatherInfo>))
-                    _networkState.postValue(NetworkState.LOADED)
-                }, {
-                    _networkState.postValue(NetworkState.ERROR)
-                    Log.e("MovieDetailsDataSource", it.message ?: "")
-                }))
-
+            compositeDisposable.add(
+                Single.mergeDelayError(singleList)
+                    .doFinally { _isLoading.postValue(false) }
+                    .subscribe({
+                        Log.e("MovieDetailsDataSource", it.toString() ?: "")
+                        _weatherInfoListResponse += it as WeatherInfo
+                        _networkState.postValue(NetworkState.LOADED)
+                    }, {
+                        _networkState.postValue(NetworkState.ERROR)
+                        Log.e("MovieDetailsDataSource", it.message ?: "")
+                    })
+            )
         } catch (e: Exception) {
             Log.e("MovieDetailsDataSource", e.message ?: "")
         }
     }
 
+    operator fun <T> MutableLiveData<ArrayList<T>>.plusAssign(values: T) {
+        val value = this.value ?: arrayListOf()
+        value.add(values)
+        this.postValue(value)
+    }
 
 }

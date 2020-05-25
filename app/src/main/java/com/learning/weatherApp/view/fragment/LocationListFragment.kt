@@ -1,22 +1,17 @@
 package com.learning.weatherApp.view.fragment
 
 import android.os.Bundle
-import android.util.Log
 import android.view.*
-import androidx.fragment.app.Fragment
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
-
 import com.learning.weatherApp.R
 import com.learning.weatherApp.databinding.FragmentLocationListBinding
 import com.learning.weatherApp.repository.network.api.NetworkState
-import com.learning.weatherApp.repository.vo.WeatherInfo
 import com.learning.weatherApp.view.adapter.LocationListAdapter
 import com.learning.weatherApp.viewModel.AppActivityViewModel
 import com.learning.weatherApp.viewModel.LocationListFragmentViewModel
-import kotlinx.android.synthetic.main.fragment_location_list.*
 
 /**
  * A simple [Fragment] subclass.
@@ -63,26 +58,28 @@ class LocationListFragment : Fragment() {
         }
 
         viewModel.networkState.observe(viewLifecycleOwner, Observer {
-//            Toast.makeText(activity, it.msg, Toast.LENGTH_SHORT).show()
+            if (it == NetworkState.ERROR && !viewModel.listIsEmpty()) {
+                Toast.makeText(activity, it.msg, Toast.LENGTH_SHORT).show()
+            }
         })
-
         setObserverForActivityRestart();
         fetchWeatherInfoList()
-
     }
 
     fun fetchWeatherInfoList() {
         viewModel.weatherInfoList.observe(viewLifecycleOwner, Observer {
             (binding.rvLocationList.adapter as LocationListAdapter).updateList(it)
         })
-        if (viewModel.listIsEmpty() && (activityViewModel.getUpdateFlag().value == null || activityViewModel.getUpdateFlag()?.value == false)) {
+        if (viewModel.listIsEmpty()
+            && activityViewModel.getUpdateFlag()?.value == false
+            && viewModel.isLoading.value == false) {
             viewModel.fetchWeatherInfo()
         }
     }
 
     private fun setObserverForActivityRestart() {
         activityViewModel.getUpdateFlag().observe(requireActivity(), Observer {
-            if (it && viewModel.networkState.value != NetworkState.LOADING) {
+            if (it && viewModel.isLoading.value == false) {
                 activityViewModel.setUpdateFlag(false)
                 viewModel.fetchWeatherInfo()
             }

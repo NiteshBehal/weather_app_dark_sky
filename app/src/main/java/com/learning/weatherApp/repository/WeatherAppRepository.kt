@@ -23,7 +23,11 @@ class WeatherAppRepository(val compositeDisposable: CompositeDisposable) {
         return weatherApiDatasource.networkState
     }
 
-    fun fetchWeatherInfoList(): LiveData<List<WeatherInfo>> {
+    fun isLoading(): LiveData<Boolean> {
+        return weatherApiDatasource.isLoading
+    }
+
+    fun fetchWeatherInfoList(): LiveData<ArrayList<WeatherInfo>> {
         return weatherApiDatasource.weatherInfoListResponse
     }
 
