@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/app_nav_graph"
+    app:startDestination="@id/locationListFragment">
+
+    <fragment
+        android:id="@+id/locationListFragment"
+        android:name="com.learning.weatherApp.view.fragment.LocationListFragment"
+        android:label="Weather App"
+        tools:layout="@layout/fragment_location_list">
+        <action
+            android:id="@+id/action_List_to_weatherDetail"
+            app:destination="@id/weatherDetailFragment"
+            app:enterAnim="@anim/fragment_fade_enter"
+            app:exitAnim="@anim/fragment_fade_exit"
+            app:popEnterAnim="@anim/fragment_fade_enter"
+            app:popExitAnim="@anim/fragment_fade_exit" />
+    </fragment>
+    <fragment
+        android:id="@+id/weatherDetailFragment"
+        android:name="com.learning.weatherApp.view.fragment.WeatherDetailFragment"
+        android:label="{title}"
+        tools:layout="@layout/fragment_weather_detail"
+        >
+        <argument
+            android:name="title"
+            app:argType="string" />
+        <argument
+            android:name="weatherInfo"
+            app:argType="com.learning.weatherApp.repository.vo.WeatherInfo" />
+
+    </fragment>
+</navigation>
