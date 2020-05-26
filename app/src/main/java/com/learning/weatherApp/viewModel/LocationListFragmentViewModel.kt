@@ -24,7 +24,7 @@ class LocationListFragmentViewModel : ViewModel() {
         weatherAppRepository.isLoading()
     }
 
-    val weatherInfoList : LiveData<ArrayList<WeatherInfo>> by lazy {
+    val weatherInfoList: LiveData<ArrayList<WeatherInfo>> by lazy {
         weatherAppRepository.fetchWeatherInfoList()
     }
 
@@ -33,11 +33,11 @@ class LocationListFragmentViewModel : ViewModel() {
     }
 
     fun getLocationList(): List<Location> {
-        var loc1 = Location("default_provider")
+        val loc1 = Location("default_provider")
         loc1.latitude = 37.3855;
         loc1.longitude = -122.088
 
-        var loc2 = Location("default_provider")
+        val loc2 = Location("default_provider")
         loc2.latitude = 40.7128;
         loc2.longitude = -74.0060
 

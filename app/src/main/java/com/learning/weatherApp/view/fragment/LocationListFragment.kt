@@ -13,9 +13,6 @@ import com.learning.weatherApp.view.adapter.LocationListAdapter
 import com.learning.weatherApp.viewModel.AppActivityViewModel
 import com.learning.weatherApp.viewModel.LocationListFragmentViewModel
 
-/**
- * A simple [Fragment] subclass.
- */
 class LocationListFragment : Fragment() {
     private lateinit var viewModel: LocationListFragmentViewModel
     private lateinit var activityViewModel: AppActivityViewModel
@@ -71,8 +68,9 @@ class LocationListFragment : Fragment() {
             (binding.rvLocationList.adapter as LocationListAdapter).updateList(it)
         })
         if (viewModel.listIsEmpty()
-            && activityViewModel.getUpdateFlag()?.value == false
-            && viewModel.isLoading.value == false) {
+            && activityViewModel.getUpdateFlag().value == false
+            && viewModel.isLoading.value == false
+        ) {
             viewModel.fetchWeatherInfo()
         }
     }
@@ -80,7 +78,7 @@ class LocationListFragment : Fragment() {
     private fun setObserverForActivityRestart() {
         activityViewModel.getUpdateFlag().observe(requireActivity(), Observer {
             if (it) {
-                if(viewModel.isLoading.value == false) {
+                if (viewModel.isLoading.value == false) {
                     viewModel.fetchWeatherInfo()
                 }
                 activityViewModel.setUpdateFlag(false)

@@ -37,7 +37,10 @@ class LocationListAdapter(var weatherInfoList: List<WeatherInfo>) :
                 v.weatherInfo = it
                 itemView.setOnClickListener {
                     val action =
-                        LocationListFragmentDirections.actionListToWeatherDetail(title = v.tvLocationName.text.toString(), weatherInfo = it@info)
+                        LocationListFragmentDirections.actionListToWeatherDetail(
+                            title = v.tvLocationName.text.toString(),
+                            weatherInfo = it@ info
+                        )
 
                     Navigation.findNavController(it).navigate(action)
                 }

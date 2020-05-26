@@ -37,10 +37,6 @@ class WeatherAppActivity : AppCompatActivity() {
 
     override fun onRestart() {
         super.onRestart()
-
         viewModel.setUpdateFlag(true)
     }
-
-
-
 }

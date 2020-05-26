@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 
 class AppActivityViewModel  : ViewModel() {
 
-    val updateListData  = MutableLiveData<Boolean>(false)
+    private val updateListData  = MutableLiveData(false)
 
     fun getUpdateFlag(): LiveData<Boolean>{
         return updateListData

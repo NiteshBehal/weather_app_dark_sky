@@ -1,7 +1,6 @@
 package com.learning.weatherApp.repository.network.api
 
 import android.location.Location
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.learning.weatherApp.repository.vo.WeatherInfo
@@ -43,16 +42,14 @@ class WeatherApiDatasource(
                 Single.mergeDelayError(singleList)
                     .doFinally { _isLoading.postValue(false) }
                     .subscribe({
-                        Log.e("MovieDetailsDataSource", it.toString() ?: "")
                         _weatherInfoListResponse += it as WeatherInfo
                         _networkState.postValue(NetworkState.LOADED)
                     }, {
                         _networkState.postValue(NetworkState.ERROR)
-                        Log.e("MovieDetailsDataSource", it.message ?: "")
                     })
             )
         } catch (e: Exception) {
-            Log.e("MovieDetailsDataSource", e.message ?: "")
+            _networkState.postValue(NetworkState.ERROR)
         }
     }
 

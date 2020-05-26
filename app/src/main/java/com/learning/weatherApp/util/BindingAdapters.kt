@@ -3,18 +3,9 @@ package com.learning.weatherApp.util
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
-import com.bumptech.glide.Glide
 import com.learning.weatherApp.R
 import java.text.SimpleDateFormat
 import java.util.*
-
-
-@BindingAdapter("loadImage")
-fun loadImage(view: ImageView, imageUrl: String?) {
-    Glide.with(view.context)
-        .load(imageUrl)
-        .into(view)
-}
 
 @BindingAdapter("setLocationName")
 fun setLocationName(view: TextView, timeZone: String?) {

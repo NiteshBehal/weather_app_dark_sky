@@ -7,9 +7,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.learning.weatherApp.databinding.FragmentWeatherDetailBinding
 
-/**
- * A simple [Fragment] subclass.
- */
 class WeatherDetailFragment : Fragment() {
 
     private lateinit var binding: FragmentWeatherDetailBinding
