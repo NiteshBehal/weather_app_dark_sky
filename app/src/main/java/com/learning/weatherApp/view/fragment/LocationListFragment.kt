@@ -79,9 +79,11 @@ class LocationListFragment : Fragment() {
 
     private fun setObserverForActivityRestart() {
         activityViewModel.getUpdateFlag().observe(requireActivity(), Observer {
-            if (it && viewModel.isLoading.value == false) {
+            if (it) {
+                if(viewModel.isLoading.value == false) {
+                    viewModel.fetchWeatherInfo()
+                }
                 activityViewModel.setUpdateFlag(false)
-                viewModel.fetchWeatherInfo()
             }
         })
     }
